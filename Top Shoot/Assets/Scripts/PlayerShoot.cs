@@ -11,6 +11,11 @@ public class PlayerShoot : MonoBehaviour
     private bool isShooting = false;             // آیا دکمه نگه داشته شده؟
     private float nextFireTime = 0f;             // زمان بعدی که اجازه شلیک داریم
 
+    PlayerHeal playerHeal;
+    void Start()
+    {
+        playerHeal = FindAnyObjectByType<PlayerHeal>();
+    }
     // این متد را از Event دکمه UI در OnPointerDown فراخوانی کنید
     public void StartShooting()
     {
@@ -25,6 +30,7 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
+        if (!playerHeal.isalive) return;
         if (isShooting && Time.time >= nextFireTime)
         {
             Shoot();

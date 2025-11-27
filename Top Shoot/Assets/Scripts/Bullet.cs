@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    EnemyShoot enemyShoot;
+    PlayerHeal playerHeal;
     private Camera mainCamera;
 
     void Start()
     {
         mainCamera = Camera.main; // گرفتن دوربین اصلی
+        enemyShoot = FindFirstObjectByType<EnemyShoot>();
+        playerHeal = FindFirstObjectByType<PlayerHeal>();
     }
 
     void Update()
@@ -26,5 +30,19 @@ public class Bullet : MonoBehaviour
                         viewportPos.z > 0; // داخل جلوی دوربین باشد
 
         return onScreen;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Destroy(this.gameObject);
+            enemyShoot.enemyHealnow -= 1f;
+        }
+        if (collision.CompareTag("Player"))
+        {
+            Destroy(this.gameObject);
+            playerHeal.playerHealnow -= 1f;
+        }
     }
 }
